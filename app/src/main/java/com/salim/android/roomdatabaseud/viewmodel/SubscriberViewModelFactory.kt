@@ -1,4 +1,4 @@
-package com.salim.android.roomdatabaseud
+package com.salim.android.roomdatabaseud.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
