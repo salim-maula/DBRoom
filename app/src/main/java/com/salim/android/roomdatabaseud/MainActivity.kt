@@ -21,6 +21,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var subscriberViewmModel: SubscriberViewmModel
 
+    private lateinit var adapter: MyRecyclerViewAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -45,19 +47,23 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun initRecycleView(){
+    private fun initRecycleView() {
         binding.subscriberRecyclerView.layoutManager = LinearLayoutManager(this)
         displaySubscriberList()
+        adapter =
+            MyRecyclerViewAdapter({ selectedItem: Subscriber -> listItemClicked(selectedItem) })
     }
 
-    private fun displaySubscriberList(){
+    private fun displaySubscriberList() {
         subscriberViewmModel.subscribers.observe(this, Observer {
             Log.i("TAG", "displaySubscriberList: $it")
-            binding.subscriberRecyclerView.adapter = MyRecyclerViewAdapter(it, {selectedItem:Subscriber->listItemClicked(selectedItem)})
+            //when update, delete and insert we create a new MyRecyclerViewAdapter object
+            adapter.setList(it)
+            adapter.notifyDataSetChanged()
         })
     }
 
-    private fun listItemClicked(subscriber: Subscriber){
+    private fun listItemClicked(subscriber: Subscriber) {
 //        Toast.makeText(this, "Selected name is ${subscriber.name}", Toast.LENGTH_LONG).show()
 
         //setup delete
