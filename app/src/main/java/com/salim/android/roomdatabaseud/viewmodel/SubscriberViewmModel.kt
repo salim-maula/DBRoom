@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.salim.android.roomdatabaseud.db.Subscriber
 import com.salim.android.roomdatabaseud.db.SubscriberRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SubscriberViewmModel(private val repository: SubscriberRepository): ViewModel() {
@@ -35,8 +34,8 @@ class SubscriberViewmModel(private val repository: SubscriberRepository): ViewMo
             val name = inputName.value!!
             val email = inputEmail.value!!
             insert(Subscriber(0, name, email))
-            inputName.value = ""
-            inputEmail.value = ""
+            inputName.value = null
+            inputEmail.value = null
         }
     }
 
@@ -58,13 +57,13 @@ class SubscriberViewmModel(private val repository: SubscriberRepository): ViewMo
     }
 
     fun insert(subscriber: Subscriber){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             repository.insert(subscriber)
         }
     }
 
     fun update(subscriber: Subscriber){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             repository.update(subscriber)
 
             //add this
@@ -78,7 +77,7 @@ class SubscriberViewmModel(private val repository: SubscriberRepository): ViewMo
     }
 
     fun delete(subscriber: Subscriber){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch{
             repository.delete(subscriber)
 
             //add this
@@ -90,7 +89,7 @@ class SubscriberViewmModel(private val repository: SubscriberRepository): ViewMo
         }
     }
     fun clearAll(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             repository.deleteAll()
         }
     }
