@@ -1,8 +1,10 @@
 package com.salim.android.roomdatabaseud.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.salim.android.roomdatabaseud.Event
 import com.salim.android.roomdatabaseud.db.Subscriber
 import com.salim.android.roomdatabaseud.db.SubscriberRepository
 import kotlinx.coroutines.launch
@@ -19,6 +21,10 @@ class SubscriberViewmModel(private val repository: SubscriberRepository): ViewMo
     private lateinit var subscriberToUpdateOrDelete : Subscriber
 
     private var isUpdateOrDelete = false
+
+    private val statusMessage = MutableLiveData<Event<String>>()
+    val message : LiveData<Event<String>>
+    get() = statusMessage
 
     init {
         saveOrUpdateButtonText.value = "Save"
@@ -59,6 +65,7 @@ class SubscriberViewmModel(private val repository: SubscriberRepository): ViewMo
     fun insert(subscriber: Subscriber){
         viewModelScope.launch {
             repository.insert(subscriber)
+            statusMessage.value = Event("Subscriber Inserted Successfully")
         }
     }
 
@@ -73,6 +80,7 @@ class SubscriberViewmModel(private val repository: SubscriberRepository): ViewMo
             isUpdateOrDelete = false
             saveOrUpdateButtonText.value = "Save"
             clearAllOrDeleteButtonText.value = "Clear All"
+            statusMessage.value = Event("Subscriber Updated Successfully")
         }
     }
 
@@ -86,11 +94,13 @@ class SubscriberViewmModel(private val repository: SubscriberRepository): ViewMo
             isUpdateOrDelete = false
             saveOrUpdateButtonText.value = "Save"
             clearAllOrDeleteButtonText.value = "Clear All"
+            statusMessage.value = Event("Subscriber Deleted Successfully")
         }
     }
     fun clearAll(){
         viewModelScope.launch {
             repository.deleteAll()
+            statusMessage.value = Event("All Subscribers Deleted Successfully")
         }
     }
 }

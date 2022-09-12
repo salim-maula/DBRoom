@@ -36,6 +36,13 @@ class MainActivity : AppCompatActivity() {
 
 //        displaySubscriberList()
         initRecycleView()
+
+        //use message
+        subscriberViewmModel.message.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun initRecycleView(){
@@ -51,7 +58,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun listItemClicked(subscriber: Subscriber){
-        Toast.makeText(this, "Selected name is ${subscriber.name}", Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "Selected name is ${subscriber.name}", Toast.LENGTH_LONG).show()
 
         //setup delete
         subscriberViewmModel.initUpdateAndDelete(subscriber)
