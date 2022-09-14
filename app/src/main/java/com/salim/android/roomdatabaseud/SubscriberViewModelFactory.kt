@@ -9,7 +9,7 @@ class SubscriberViewModelFactory(private val repository: SubscriberRepository) :
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SubscriberViewmModel::class.java)) {
             return SubscriberViewmModel(repository) as T
-        } else {
+        }else {
             throw IllegalArgumentException("unknown ViewModel Class")
         }
     }

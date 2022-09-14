@@ -25,6 +25,7 @@ class SubscriberRepository(private val dao : SubscriberDAO) {
     suspend fun update(subscriber: Subscriber){
         dao.updateSubscriber(subscriber)
     }
+
     suspend fun delete(subscriber: Subscriber){
         dao.deleteSubscriber(subscriber)
     }
