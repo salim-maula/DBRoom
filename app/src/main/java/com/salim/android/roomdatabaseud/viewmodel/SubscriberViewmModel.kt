@@ -9,7 +9,6 @@ import com.salim.android.roomdatabaseud.Event
 import com.salim.android.roomdatabaseud.db.Subscriber
 import com.salim.android.roomdatabaseud.db.SubscriberRepository
 import kotlinx.coroutines.launch
-import java.util.regex.Pattern
 
 class SubscriberViewmModel(private val repository: SubscriberRepository): ViewModel() {
 
@@ -36,9 +35,9 @@ class SubscriberViewmModel(private val repository: SubscriberRepository): ViewMo
     fun saveOrUpdate(){
         if (inputName.value==null){
             statusMessage.value = Event("Please enter subscriber name")
-        }else if (inputName.value==null){
+        }else if (inputEmail.value==null){
             statusMessage.value = Event("Please enter subscriber email")
-        }else if (Patterns.EMAIL_ADDRESS.matcher(inputEmail.value!!).matches()){
+        }else if (!Patterns.EMAIL_ADDRESS.matcher(inputEmail.value!!).matches()){
             statusMessage.value = Event("Please enter a corect email address")
         }else{
 
